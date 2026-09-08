@@ -1,7 +1,6 @@
 package com.mycompany.galeria.de.arte;
 
 public class Exhibicion {
-    private String nombre;
     private String tematica;
     private ArrayList<Obra> obrasExhibidas;
 
@@ -10,4 +9,20 @@ public class Exhibicion {
         this.tematica = tematica;
         this.obrasExhibidas = new ArrayList<>();
     }
+    
+    //Getters
+
+    public String getTematica() {
+        return tematica;
+    }
+
+    public ArrayList<Obra> getObrasExhibidas() {
+        return obrasExhibidas;
+    }
+
+    //Setters
+
+    public void setTematica(String tematica) {
+        this.tematica = tematica;
+    } 
 }

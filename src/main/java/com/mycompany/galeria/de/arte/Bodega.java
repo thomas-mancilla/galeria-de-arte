@@ -14,8 +14,4 @@ public class Bodega {
     public Map<String, Obra> getInventario() {
         return inventario;
     }
-
-    public void setInventario(Map<String, Obra> inventario) {
-        this.inventario = inventario;
-    }
 }
