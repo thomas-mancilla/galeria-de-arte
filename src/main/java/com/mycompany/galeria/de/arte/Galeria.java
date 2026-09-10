@@ -5,7 +5,6 @@ class Galeria {
     public Galeria() {
         mapaSalas = new HashMap<>();
         mapaBodegas = new HashMap<>();
-
     } 
     
     //Getters
