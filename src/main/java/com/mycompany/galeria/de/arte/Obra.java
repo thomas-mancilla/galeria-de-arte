@@ -4,14 +4,14 @@ public class Obra {
 
     private String autor;
     private String titulo;
-    private String estado;
+    private EstadoObra estado;
     private int precio;
     private int anioCreacion;
     
     public Obra(String autor, String titulo, String estado, int Precio, int anioCreacion) {
         this.autor = autor;
         this.titulo = titulo;
-        this.estado = estado;
+        this.estado = EstadoObra.GUARDADA;
         this.precio = precio;
         this.anioCreacion = anioCreacion;
         
@@ -27,7 +27,7 @@ public class Obra {
         return titulo;
     }
 
-    public String getEstado() {
+    public EstadoObra getEstado() {
         return estado;
     }
 
