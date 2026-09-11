@@ -1,0 +1,6 @@
+#Salas de la galeria
+#Fri Sep 11 18:19:49 CLST 2026
+cantidad=1
+sala.0.capacidad=3
+sala.0.id=2
+sala.0.nombre=Tata

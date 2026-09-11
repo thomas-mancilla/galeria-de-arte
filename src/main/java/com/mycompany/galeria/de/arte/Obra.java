@@ -2,13 +2,13 @@ package com.mycompany.galeria.de.arte;
 
 public class Obra {
 
-    private String autor;
+    private Artista autor;
     private String titulo;
     private EstadoObra estado;
     private int precio;
     private int anioCreacion;
     
-    public Obra(String autor, String titulo, EstadoObra estado, int precio, int anioCreacion) {
+    public Obra(Artista autor, String titulo, EstadoObra estado, int precio, int anioCreacion) {
         this.autor = autor;
         this.titulo = titulo;
         this.estado = EstadoObra.GUARDADA;
@@ -16,7 +16,7 @@ public class Obra {
         this.anioCreacion = anioCreacion;
     }
 
-    public String getAutor() {
+    public Artista getAutor() {
         return autor;
     }
 
@@ -36,7 +36,7 @@ public class Obra {
         return anioCreacion;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(Artista autor) {
         this.autor = autor;
     }
 
