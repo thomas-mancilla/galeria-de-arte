@@ -2,7 +2,7 @@ package com.mycompany.galeria.de.arte;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 class Galeria {
     private Map<String, Sala> mapaSalas;
@@ -23,58 +23,68 @@ class Galeria {
         return this.bodega;
     }
 
-//METODOS DE SALA:
-
-    public void insertarSala(String id, Sala sala) {
+    //METODOS DE SALA:
+    // Agregar sala
+    public boolean insertarSala(String id, Sala sala) {
+        if (id == null || id.trim().isEmpty() || sala == null) {
+            return false;
+        }
         if (mapaSalas.containsKey(id)) {
-            System.out.println("ADVERTENCIA: Ya existe una sala con el ID '" + id + "'.");
-            System.out.print("¿Desea sobrescribirla? (Si/No): ");
-            Scanner scanner = new Scanner(System.in);
-            if (scanner.nextLine().trim().equalsIgnoreCase("Si")) {
-                mapaSalas.put(id, sala);
-                System.out.println("Sala sobrescrita con éxito.");
+            return false;
+        }
+        if (sala.getNombre() == null || sala.getNombre().trim().isEmpty() || sala.getCapacidadMaxObras() <= 0) {
+            return false;
+        }
+        sala.setNumero(id);
+        mapaSalas.put(id, sala);
+        return true;
+    }
+
+    // Buscar sala por ID
+    public Sala buscarSala(String id) {
+        return mapaSalas.get(id);
+    }
+
+    // Listar todas las salas
+    public ArrayList<Sala> listarSalas() {
+        return new ArrayList<>(mapaSalas.values());
+    }
+    
+    // Editar sala sin perder sus exhibiciones
+    public boolean editarSala(String id, String nuevoNombre, int nuevaCapacidad) {
+        Sala sala = mapaSalas.get(id);
+        if (sala == null || nuevoNombre == null || nuevoNombre.trim().isEmpty() || nuevaCapacidad <= 0) {
+            return false;
+        }
+        for (Exhibicion exhibicion : sala.getExhibiciones()) {
+            if (exhibicion.getCapacidadMaxima() > nuevaCapacidad || exhibicion.getObrasExhibidas().size() > nuevaCapacidad) {
+                return false;
             }
-        } else {
-            mapaSalas.put(id, sala);
-            System.out.println("Sala agregada exitosamente.");
         }
+
+        sala.setNombre(nuevoNombre);
+        sala.setCapacidadMaxObras(nuevaCapacidad);
+        return true;
     }
 
-    public void listarSalas() {
-        if (mapaSalas.isEmpty()) {
-            System.out.println("No hay salas registradas en la Galería.");
-            return;
+   // Eliminar sala solamente si no tiene exhibiciones
+    public boolean eliminarSala(String id) {
+        Sala sala = mapaSalas.get(id);
+        if (sala == null || !sala.getExhibiciones().isEmpty()) {
+            return false;
         }
-        System.out.println("--- LISTADO DE SALAS ---");
-        for (Map.Entry<String, Sala> entrada : mapaSalas.entrySet()) {
-            System.out.println("ID Sala: " + entrada.getKey() + " | Datos: " + entrada.getValue());
-        }
+        mapaSalas.remove(id);
+        return true;
     }
     
-    public void editarSala(String id, Sala salaModificada) {
-        if (mapaSalas.containsKey(id)) {
-            mapaSalas.replace(id, salaModificada);
-            System.out.println("La sala ha sido actualizada.");
-        } else {
-            System.out.println("Error: No se puede editar. La sala con ID '" + id + "' no existe.");
+   // Sobrecarga: buscar salas por capacidad mínima
+    public ArrayList<Sala> buscarSala(int capacidadMinima) {
+        ArrayList<Sala> resultado = new ArrayList<>();
+        for (Sala sala : mapaSalas.values()) {
+            if (sala.getCapacidadMaxObras() >= capacidadMinima) {
+                resultado.add(sala);
+            }
         }
-    }
-
-    public void eliminarSala(String id) {
-        if (mapaSalas.remove(id) != null) {
-            System.out.println("La sala con ID '" + id + "' ha sido eliminada.");
-        } else {
-            System.out.println("Error: No se encontró la sala para eliminar.");
-        }
-    }
-    
-    public void buscarSala(String id) {
-        Sala salaEncontrada = mapaSalas.get(id);
-        if (salaEncontrada != null) {
-            System.out.println("--- SALA ENCONTRADA ---");
-            System.out.println("ID: " + id + " | " + salaEncontrada);
-        } else {
-            System.out.println("Error: La sala con ID '" + id + "' no existe.");
-        }
+        return resultado;
     }
 }
