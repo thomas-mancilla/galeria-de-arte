@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class ConsolaMenu {
 
     private Scanner scanner;
+    private Galeria galeria;
 
-    public ConsolaMenu() {
-        scanner = new Scanner(System.in);
+    public ConsolaMenu(Galeria galeria) {
+        this.galeria = galeria;
+        this.scanner = new Scanner(System.in);
     }
 
     public void mostrarMenu() {
