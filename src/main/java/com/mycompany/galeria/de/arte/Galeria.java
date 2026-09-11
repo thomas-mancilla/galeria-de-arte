@@ -7,10 +7,16 @@ import java.util.ArrayList;
 class Galeria {
     private Map<String, Sala> mapaSalas;
     private Bodega bodega;
+    private Map<String, Cliente> mapaClientes; 
+    private ArrayList<Venta> registroVentas;
+    private ArrayList<Prestamo> registroPrestamos;
 
     public Galeria() {
         mapaSalas = new HashMap<>(); //MAPA DE SALAS CONTIENE: SALAS
         this.bodega = new Bodega();
+        this.mapaClientes = new HashMap<>();
+        this.registroVentas = new ArrayList<>();
+        this.registroPrestamos = new ArrayList<>();
     } 
     
     //Getters
@@ -21,6 +27,18 @@ class Galeria {
 
     public Bodega getBodega() {
         return this.bodega;
+    }
+
+    public Map<String, Cliente> getMapaClientes() {
+        return this.mapaClientes;
+    }
+    
+    public ArrayList<Venta> getRegistroVentas() {
+        return this.registroVentas;
+    }
+    
+    public ArrayList<Prestamo> getRegistroPrestamos() {
+        return this.registroPrestamos;
     }
 
     //METODOS DE SALA:

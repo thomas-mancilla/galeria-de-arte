@@ -40,15 +40,15 @@ public class ConsolaMenu {
                     break;
 
                 case 3:
-                    System.out.println("Gestionar clientes");
+                    mostrarMenuClientes();
                     break;
 
                 case 4:
-                    System.out.println("Gestionar ventas");
+                    mostrarMenuVentas();
                     break;
 
                 case 5:
-                    System.out.println("Gestionar préstamos");
+                    mostrarMenuPrestamos();
                     break;
 
                 case 0:
@@ -134,7 +134,7 @@ public class ConsolaMenu {
                     ArrayList<Sala> salas = galeria.listarSalas();
                     boolean hayObras = false;
 
-                    // Recorremos las colecciones anidadas de Sala -> Exhibiciones -> Obras
+                    // Recorremos las colecciones anidadas de Sala
                     for (Sala sala : salas) {
                         for (Exhibicion exhibicion : sala.getExhibiciones()) {
                             ArrayList<Obra> obras = exhibicion.getObrasExhibidas();
@@ -162,7 +162,7 @@ public class ConsolaMenu {
                     int tipoTraslado = leerEntero();
 
                     if (tipoTraslado == 1) {
-                        // Traslado: BODEGA -> EXHIBICIÓN
+                        // Traslado: BODEGA A EXHIBICIÓN
                         ArrayList<Obra> guardadas = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
 
                         if (guardadas == null || guardadas.isEmpty()) {
@@ -170,7 +170,7 @@ public class ConsolaMenu {
                             break;
                         }
 
-                        // 1. Mostrar y seleccionar la obra de la bodega
+                        //Mostrar y seleccionar la obra de la bodega
                         System.out.println("\nObras en bodega:");
                         for (int i = 0; i < guardadas.size(); i++) {
                             System.out.println("[" + i + "] " + guardadas.get(i).getTitulo());
@@ -184,7 +184,7 @@ public class ConsolaMenu {
                         }
                         Obra obraATrasladar = guardadas.get(idxObra);
 
-                        // 2. Seleccionar la Sala
+                        //Seleccionar la Sala
                         ArrayList<Sala> salas = galeria.listarSalas();
                         if (salas.isEmpty()) {
                             System.out.println("No hay salas registradas. Cree una sala primero.");
@@ -203,7 +203,7 @@ public class ConsolaMenu {
                         }
                         Sala salaSeleccionada = salas.get(idxSala);
 
-                        // 3. Seleccionar la Exhibición dentro de la sala
+                        //Seleccionar la Exhibición dentro de la sala
                         ArrayList<Exhibicion> exhibiciones = salaSeleccionada.getExhibiciones();
                         if (exhibiciones.isEmpty()) {
                             System.out.println("Esta sala no tiene exhibiciones. Cree una primero.");
@@ -222,7 +222,7 @@ public class ConsolaMenu {
                         }
                         Exhibicion exhibicionDestino = exhibiciones.get(idxExh);
 
-                        // 4. Efectuar el traslado
+                        //Efectuar el traslado
                         if (exhibicionDestino.getObrasExhibidas().size() >= exhibicionDestino.getCapacidadMaxima()) {
                             System.out.println("Error: La exhibición ya alcanzó su capacidad máxima.");
                         } else {
@@ -233,7 +233,7 @@ public class ConsolaMenu {
                         }
 
                     } else if (tipoTraslado == 2) {
-                        // Traslado: EXHIBICIÓN -> BODEGA
+                        // Traslado: EXHIBICIÓN A BODEGA
                         System.out.print("\nIngrese el título de la obra que desea regresar a Bodega: ");
                         String tituloBuscar = scanner.nextLine().trim();
                         boolean trasladada = false;
@@ -275,7 +275,7 @@ public class ConsolaMenu {
                     String tituloEditar = scanner.nextLine().trim();
                     Obra obraAEditar = null;
 
-                    // 1. Buscar en la Bodega
+                    //Buscar en la Bodega
                     ArrayList<Obra> guardadas = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
                     if (guardadas != null) {
                         for (Obra o : guardadas) {
@@ -286,7 +286,7 @@ public class ConsolaMenu {
                         }
                     }
 
-                    // 2. Si no está en bodega, buscar en las Exhibiciones
+                    //Si no está en bodega, buscar en las Exhibiciones
                     if (obraAEditar == null) {
                         for (Sala sala : galeria.listarSalas()) {
                             for (Exhibicion exhibicion : sala.getExhibiciones()) {
@@ -302,7 +302,7 @@ public class ConsolaMenu {
                         }
                     }
 
-                    // 3. Proceso de edición (Si se encontró la obra)
+                    //Proceso de edición (Si se encontró la obra)
                     if (obraAEditar == null) {
                         System.out.println("Obra no encontrada en el sistema.");
                     } else {
@@ -336,7 +336,7 @@ public class ConsolaMenu {
                     String tituloEliminar = scanner.nextLine().trim();
                     boolean eliminada = false;
 
-                    // 1. Intentar eliminar de la Bodega
+                    //Intentar eliminar de la Bodega
                     ArrayList<Obra> guardadas = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
                     if (guardadas != null) {
                         for (int i = 0; i < guardadas.size(); i++) {
@@ -348,7 +348,7 @@ public class ConsolaMenu {
                         }
                     }
 
-                    // 2. Si no estaba en bodega, intentar eliminar de Exhibiciones
+                    //Si no estaba en bodega, intentar eliminar de Exhibiciones
                     if (!eliminada) {
                         for (Sala sala : galeria.listarSalas()) {
                             for (Exhibicion exhibicion : sala.getExhibiciones()) {
@@ -497,6 +497,284 @@ public class ConsolaMenu {
         } while (opcion != 0);
     }
 
+    private void mostrarMenuVentas() {
+        int opcion;
+        do {
+            System.out.println("\nMENÚ VENTAS");
+            System.out.println("-----------");
+            System.out.println("[1] Realizar una venta");
+            System.out.println("[2] Mostrar ventas de la galería");
+            System.out.println("[0] Volver");
+            System.out.print("\nSeleccione: ");
+            opcion = leerEntero();
+
+            switch (opcion) {
+                case 1: {
+                    System.out.println("--- REALIZAR VENTA ---");
+                    // Trae las obras que están disponibles en Bodega
+                    ArrayList<Obra> disponibles = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
+
+                    if (disponibles == null || disponibles.isEmpty()) {
+                        System.out.println("No hay obras disponibles para vender en la Bodega.");
+                        break;
+                    }
+
+                    System.out.println("Obras disponibles:");
+                    for (int i = 0; i < disponibles.size(); i++) {
+                        System.out.println("[" + i + "] " + disponibles.get(i).getTitulo() + " - $" + disponibles.get(i).getPrecio());
+                    }
+
+                    System.out.print("\nSeleccione el número de la obra a vender: ");
+                    int idx = leerEntero();
+
+                    if (idx < 0 || idx >= disponibles.size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+                    Obra obraSeleccionada = disponibles.get(idx);
+
+                    // Recopilación de datos del Cliente 
+                    System.out.print("Ingrese el RUT del cliente: ");
+                    String rut = scanner.nextLine().trim();
+
+                    System.out.print("Ingrese el nombre del cliente: ");
+                    String nombre = scanner.nextLine().trim();
+
+                    System.out.print("Ingrese el teléfono del cliente: ");
+                    String telefono = scanner.nextLine().trim();
+
+                    System.out.print("Ingrese el correo electrónico del cliente: ");
+                    String correo = scanner.nextLine().trim();
+
+                    Cliente cliente = new Cliente(rut, nombre, telefono, correo);
+
+                    // Obtener fecha actual
+                    String fechaActual = java.time.LocalDate.now().toString();
+
+                    //Efectuar el traslado en la colección anidada de Bodega
+                    disponibles.remove(obraSeleccionada); 
+                    obraSeleccionada.setEstado(EstadoObra.VENDIDA);
+                    galeria.getBodega().agregarObra(obraSeleccionada, EstadoObra.VENDIDA);
+
+                    //Registrar la venta en la Galería
+                    Venta nuevaVenta = new Venta(obraSeleccionada, cliente, fechaActual, obraSeleccionada.getPrecio());
+                    galeria.getRegistroVentas().add(nuevaVenta);
+
+                    System.out.println("\n¡Venta registrada exitosamente!");
+                    break;
+                }
+                case 2: {
+                    System.out.println("--- HISTORIAL DE VENTAS ---");
+                    ArrayList<Venta> ventas = galeria.getRegistroVentas();
+
+                    if (ventas == null || ventas.isEmpty()) {
+                        System.out.println("Aún no se han registrado ventas.");
+                    } else {
+                        for (Venta v : ventas) {
+                            System.out.println("Fecha: " + v.getFecha() + 
+                                               " | Cliente: " + v.getCliente().getNombre() + " (RUT: " + v.getCliente().getRut() + ")" +
+                                               " | Obra: " + v.getObra().getTitulo() + 
+                                               " | Monto: $" + v.getPrecioVenta());
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 0);
+    }
+    
+    private void mostrarMenuClientes() {
+        int opcion;
+        do {
+            System.out.println("\nMENÚ CLIENTES");
+            System.out.println("-------------");
+            System.out.println("[1] Ver totalidad de clientes (creados por compras)");
+            System.out.println("[0] Volver");
+            System.out.print("\nSeleccione: ");
+            opcion = leerEntero();
+
+            switch (opcion) {
+                case 1: {
+                    System.out.println("--- LISTADO DE CLIENTES HISTÓRICOS ---");
+                    // Extraemos las ventas desde la galería
+                    ArrayList<Venta> ventas = galeria.getRegistroVentas();
+
+                    if (ventas == null || ventas.isEmpty()) {
+                        System.out.println("Aún no hay clientes registrados en el sistema.");
+                    } else {
+                        // Lista auxiliar para no imprimir al mismo cliente dos veces
+                        ArrayList<String> rutsImpresos = new ArrayList<>();
+
+                        for (Venta v : ventas) {
+                            Cliente c = v.getCliente();
+
+                            // Si el RUT no está en nuestra lista de control, lo imprimimos
+                            if (!rutsImpresos.contains(c.getRut())) {
+                                System.out.println("- RUT: " + c.getRut() + 
+                                                   " | Nombre: " + c.getNombre() + 
+                                                   " | Tel: " + c.getTelefono() + 
+                                                   " | Correo: " + c.getCorreo());
+                                rutsImpresos.add(c.getRut());
+                            }
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 0);
+    }
+    
+    private void mostrarMenuPrestamos() {
+        int opcion;
+        do {
+            System.out.println("\nMENÚ PRÉSTAMOS");
+            System.out.println("--------------");
+            System.out.println("[1] Pedir préstamo de Obra");
+            System.out.println("[2] Devolver préstamo de Obra (Vuelve a Bodega)");
+            System.out.println("[3] Ver préstamos activos");
+            System.out.println("[4] Ver obras disponibles para préstamo");
+            System.out.println("[0] Volver");
+            System.out.print("\nSeleccione: ");
+            opcion = leerEntero();
+
+            switch (opcion) {
+                case 1: {
+                    System.out.println("--- PEDIR PRÉSTAMO ---");
+                    // Buscamos obras disponibles en la colección anidada de la bodega
+                    ArrayList<Obra> disponibles = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
+
+                    if (disponibles == null || disponibles.isEmpty()) {
+                        System.out.println("No hay obras disponibles para prestar en la Bodega.");
+                        break;
+                    }
+
+                    System.out.println("Obras disponibles:");
+                    for (int i = 0; i < disponibles.size(); i++) {
+                        System.out.println("[" + i + "] " + disponibles.get(i).getTitulo());
+                    }
+
+                    System.out.print("\nSeleccione el número de la obra a prestar: ");
+                    int idx = leerEntero();
+
+                    if (idx < 0 || idx >= disponibles.size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+                    Obra obraSeleccionada = disponibles.get(idx);
+
+                    // Instanciar el Cliente
+                    System.out.print("Ingrese RUT del cliente: ");
+                    String rut = scanner.nextLine().trim();
+                    System.out.print("Ingrese Nombre del cliente: ");
+                    String nombre = scanner.nextLine().trim();
+                    System.out.print("Ingrese Teléfono: ");
+                    String telefono = scanner.nextLine().trim();
+                    System.out.print("Ingrese Correo: ");
+                    String correo = scanner.nextLine().trim();
+                    Cliente cliente = new Cliente(rut, nombre, telefono, correo);
+
+                    // Fechas
+                    String fechaInicio = java.time.LocalDate.now().toString();
+                    System.out.print("Ingrese fecha de devolución estimada (ej. 2026-12-01): ");
+                    String fechaDevolucion = scanner.nextLine().trim();
+
+                    //Traslado interno en la Bodega
+                    disponibles.remove(obraSeleccionada); 
+                    obraSeleccionada.setEstado(EstadoObra.PRESTADA);
+                    galeria.getBodega().agregarObra(obraSeleccionada, EstadoObra.PRESTADA);
+
+                    //Crear y guardar el registro
+                    Prestamo nuevoPrestamo = new Prestamo(obraSeleccionada, cliente, fechaInicio, fechaDevolucion);
+                    galeria.getRegistroPrestamos().add(nuevoPrestamo);
+
+                    System.out.println("\n¡Préstamo registrado exitosamente!");
+                    break;
+                }
+                case 2: {
+                    System.out.println("--- DEVOLVER PRÉSTAMO ---");
+                    ArrayList<Prestamo> prestamos = galeria.getRegistroPrestamos();
+
+                    if (prestamos == null || prestamos.isEmpty()) {
+                        System.out.println("No hay préstamos activos.");
+                        break;
+                    }
+
+                    System.out.println("Préstamos activos:");
+                    for (int i = 0; i < prestamos.size(); i++) {
+                        Prestamo p = prestamos.get(i);
+                        System.out.println("[" + i + "] Obra: " + p.getObra().getTitulo() + 
+                                           " | Cliente: " + p.getCliente().getNombre());
+                    }
+
+                    System.out.print("\nSeleccione el número del préstamo a devolver: ");
+                    int idx = leerEntero();
+
+                    if (idx < 0 || idx >= prestamos.size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+
+                    Prestamo prestamoDevuelto = prestamos.get(idx);
+                    Obra obraDevuelta = prestamoDevuelto.getObra();
+
+                    //Devolver a la lista GUARDADA
+                    galeria.getBodega().obtenerObrasPorEstado(EstadoObra.PRESTADA).remove(obraDevuelta);
+                    obraDevuelta.setEstado(EstadoObra.GUARDADA);
+                    galeria.getBodega().agregarObra(obraDevuelta, EstadoObra.GUARDADA);
+
+                    //Eliminar el registro del préstamo activo
+                    prestamos.remove(idx);
+                    System.out.println("\nObra '" + obraDevuelta.getTitulo() + "' devuelta a la Bodega exitosamente.");
+                    break;
+                }
+                case 3: {
+                    System.out.println("--- PRÉSTAMOS ACTIVOS ---");
+                    ArrayList<Prestamo> prestamos = galeria.getRegistroPrestamos();
+
+                    if (prestamos == null || prestamos.isEmpty()) {
+                        System.out.println("No hay préstamos activos en este momento.");
+                    } else {
+                        for (Prestamo p : prestamos) {
+                            System.out.println("- Obra: " + p.getObra().getTitulo() + 
+                                               " | Cliente: " + p.getCliente().getNombre() + 
+                                               " | Inicio: " + p.getFechaInicio() + 
+                                               " | Devolución: " + p.getFechaDevolucion());
+                        }
+                    }
+                    break;
+                }
+                case 4: {
+                    System.out.println("--- OBRAS DISPONIBLES PARA PRÉSTAMO ---");
+                    ArrayList<Obra> disponibles = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
+
+                    if (disponibles == null || disponibles.isEmpty()) {
+                        System.out.println("No hay obras disponibles en Bodega.");
+                    } else {
+                        for (Obra o : disponibles) {
+                            System.out.println("- " + o.getTitulo() + " (Artista: " + o.getAutor().getNombre() + ")");
+                        }
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 0);
+    }
+    
     private void mostrarSala(Sala sala) {
         System.out.println("ID: " + sala.getNumero() + " | Nombre: " + sala.getNombre() + " | Capacidad: " + sala.getCapacidadMaxObras());
     }
