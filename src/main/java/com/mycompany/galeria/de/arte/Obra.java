@@ -7,18 +7,15 @@ public class Obra {
     private EstadoObra estado;
     private int precio;
     private int anioCreacion;
-    
-    public Obra(String autor, String titulo, String estado, int Precio, int anioCreacion) {
+
+    public Obra(String autor, String titulo, int precio, int anioCreacion) {
         this.autor = autor;
         this.titulo = titulo;
         this.estado = EstadoObra.GUARDADA;
         this.precio = precio;
         this.anioCreacion = anioCreacion;
-        
     }
-    
-    //Getters
-    
+
     public String getAutor() {
         return autor;
     }
@@ -39,8 +36,6 @@ public class Obra {
         return anioCreacion;
     }
 
-    // Setters
-    
     public void setAutor(String autor) {
         this.autor = autor;
     }
@@ -49,7 +44,7 @@ public class Obra {
         this.titulo = titulo;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoObra estado) {
         this.estado = estado;
     }
 
@@ -60,5 +55,13 @@ public class Obra {
     public void setAnioCreacion(int anioCreacion) {
         this.anioCreacion = anioCreacion;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Autor: " + autor
+                + " | Título: " + titulo
+                + " | Estado: " + estado
+                + " | Precio: " + precio
+                + " | Año: " + anioCreacion;
+    }
 }
