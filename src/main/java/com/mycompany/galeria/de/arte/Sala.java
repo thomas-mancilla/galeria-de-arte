@@ -12,7 +12,7 @@ public class Sala {
         this.numero = numero;
         this.nombre = nombre;
         this.capacidadMaxObras = capacidadMaxObras;
-        this.exhibiciones = new ArrayList<>(); //Inicia vacia / disponible.
+        this.exhibiciones = new ArrayList<>();
     }
     
     //Getters 
@@ -33,8 +33,8 @@ public class Sala {
         return exhibiciones;
     }
     
-    //Setters (Para el ArrayList no existe. Serian sus metodos de agregar)
-    
+    //Setters
+
     public void setNumero(String numero) {
         this.numero = numero;
     }
@@ -47,47 +47,57 @@ public class Sala {
         this.capacidadMaxObras = capacidadMaxObras;
     }
     
-    public void agregarExhibicion(Exhibicion exhibicion) {
-        this.exhibiciones.add(exhibicion);
+    // La temática identifica la exhibición dentro de esta sala.
+    public boolean agregarExhibicion(Exhibicion exhibicion) {
+        if (exhibicion == null || exhibicion.getTematica() == null || exhibicion.getTematica().trim().isEmpty() || buscarExhibicion(exhibicion.getTematica()) != null || exhibicion.getCapacidadMaxima() <= 0 || exhibicion.getCapacidadMaxima() > capacidadMaxObras || exhibicion.getObrasExhibidas().size() > exhibicion.getCapacidadMaxima() || cantidadObrasExhibidas() + exhibicion.getObrasExhibidas().size() > capacidadMaxObras) {
+            return false;
+        }
+        exhibicion.setTematica(exhibicion.getTematica().trim());
+        return exhibiciones.add(exhibicion);
     }
 
-    //METODOS :
-    
-    public void listarExhibiciones() {
-        if (exhibiciones.isEmpty()) {
-            System.out.println("No hay exhibiciones en esta sala.");
-            return;
-        }
-        for (Exhibicion exhibicion : exhibiciones) {
-            System.out.println("Temática: " + exhibicion.getTematica() + " | Capacidad: " + exhibicion.getCapacidadMaxima());
-        }
+    public ArrayList<Exhibicion> listarExhibiciones() {
+        return new ArrayList<>(exhibiciones);
     }
 
     public Exhibicion buscarExhibicion(String tematica) {
+        if (tematica == null) return null;
         for (Exhibicion exhibicion : exhibiciones) {
-            if (exhibicion.getTematica().equalsIgnoreCase(tematica)) {
+            if (exhibicion.getTematica().equalsIgnoreCase(tematica.trim())) {
                 return exhibicion;
             }
         }
-        return null; // Retorna nulo si no existe
+        return null;
     }
 
     public boolean eliminarExhibicion(String tematica) {
         Exhibicion exhibicion = buscarExhibicion(tematica);
-        if (exhibicion != null) {
-            exhibiciones.remove(exhibicion);
-            return true;
+        if (exhibicion == null || !exhibicion.getObrasExhibidas().isEmpty()) {
+            return false;
         }
-        return false;
+        return exhibiciones.remove(exhibicion);
     }
 
     public boolean editarExhibicion(String tematicaOriginal, String nuevaTematica, int nuevaCapacidad) {
         Exhibicion exhibicion = buscarExhibicion(tematicaOriginal);
-        if (exhibicion != null) {
-            exhibicion.setTematica(nuevaTematica);
-            exhibicion.setCapacidadMaxima(nuevaCapacidad);
-            return true;
+        if (exhibicion == null || nuevaTematica == null || nuevaTematica.trim().isEmpty() || nuevaCapacidad <= 0 || nuevaCapacidad > capacidadMaxObras || nuevaCapacidad < exhibicion.getObrasExhibidas().size()) {
+                return false;
         }
-        return false;
+        Exhibicion repetida = buscarExhibicion(nuevaTematica);
+        if (repetida != null && repetida != exhibicion) {
+            return false;
+        }
+        exhibicion.setTematica(nuevaTematica.trim());
+        exhibicion.setCapacidadMaxima(nuevaCapacidad);
+        return true;
+    }
+
+    public int cantidadObrasExhibidas() {
+        int cantidad = 0;
+        for (Exhibicion exhibicion : exhibiciones) {
+            cantidad += exhibicion.getObrasExhibidas().size();
+        }
+        return cantidad;
     }
 }
+
