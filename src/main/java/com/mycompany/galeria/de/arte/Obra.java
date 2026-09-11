@@ -8,7 +8,7 @@ public class Obra {
     private int precio;
     private int anioCreacion;
     
-    public Obra(String autor, String titulo, String estado, int Precio, int anioCreacion) {
+    public Obra(String autor, String titulo, String estado, int precio, int anioCreacion) {
         this.autor = autor;
         this.titulo = titulo;
         this.estado = EstadoObra.GUARDADA;
@@ -49,7 +49,7 @@ public class Obra {
         this.titulo = titulo;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoObra estado) {
         this.estado = estado;
     }
 
