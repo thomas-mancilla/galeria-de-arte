@@ -55,7 +55,7 @@ public class ConsolaMenu {
                 break;
 
             case 2:
-                mostrarMenuSalas();
+                System.out.println("\nMostrar obras: pendiente de implementar.");
                 break;
 
             case 3:
@@ -83,7 +83,7 @@ public class ConsolaMenu {
     break;
 
                 case 2:
-                    System.out.println("\nGestionar salas");
+                    mostrarMenuSalas();
                     break;
 
                 case 3:
