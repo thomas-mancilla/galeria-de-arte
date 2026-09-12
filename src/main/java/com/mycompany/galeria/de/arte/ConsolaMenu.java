@@ -77,14 +77,14 @@ public class ConsolaMenu {
     private void mostrarMenuObras() {
         int opcionObra;
         do {
-            System.out.println("\nMENÚ OBRAS");
-            System.out.println("----------");
             System.out.println("[1] Ingresar nueva obra (Por defecto entra a Bodega)");
             System.out.println("[2] Ver inventario en Bodega");
             System.out.println("[3] Ver obras en Exhibición");
             System.out.println("[4] Trasladar obra (Bodega <-> Exhibición)");
             System.out.println("[5] Editar datos de la obra");
             System.out.println("[6] Dar de baja / Eliminar obra");
+            System.out.println("[7] Buscar obra por estado");
+            System.out.println("[8] Buscar obra por título");
             System.out.println("[0] Volver");
 
             System.out.print("\nSeleccione: ");
@@ -377,6 +377,63 @@ public class ConsolaMenu {
                     System.out.println("Volviendo al menú principal...");
                     break;
                 }
+                
+                case 7: {
+                    System.out.println("--- BUSCAR OBRAS POR ESTADO ---");
+
+                    System.out.println("Estados disponibles:");
+                    for (EstadoObra estado : EstadoObra.values()) {
+                        System.out.println("- " + estado);
+                    }
+
+                    System.out.print("Ingrese el estado: ");
+                    String estadoIngresado = scanner.nextLine().trim().toUpperCase();
+
+                    try {
+                        EstadoObra estado = EstadoObra.valueOf(estadoIngresado);
+
+                        ArrayList<Obra> obras =
+                                galeria.getBodega().buscarObras(estado);
+
+                        if (obras == null || obras.isEmpty()) {
+                            System.out.println("No hay obras con ese estado.");
+                        } else {
+                            System.out.println("\nObras encontradas:");
+
+                            for (Obra obra : obras) {
+                                System.out.println("- " + obra.getTitulo());
+                            }
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Estado no válido.");
+                    }
+
+                    break;
+                }
+
+                case 8: {
+                    System.out.println("--- BUSCAR OBRA POR TÍTULO ---");
+
+                    System.out.print("Ingrese el título de la obra: ");
+                    String tituloBuscar = scanner.nextLine().trim();
+
+                    ArrayList<Obra> resultados =
+                            galeria.getBodega().buscarObras(tituloBuscar);
+
+                    if (resultados == null || resultados.isEmpty()) {
+                        System.out.println("No se encontró ninguna obra con ese título.");
+                    } else {
+                        System.out.println("\nObras encontradas:");
+
+                        for (Obra obra : resultados) {
+                            System.out.println("- " + obra.getTitulo());
+                        }
+                    }
+
+                    break;
+                }
+                
                 default:
                     System.out.println("Opción no válida.");
             }
