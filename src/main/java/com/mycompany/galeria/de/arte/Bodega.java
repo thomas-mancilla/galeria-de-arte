@@ -29,4 +29,23 @@ public class Bodega {
     public boolean eliminarObra(Obra obra, EstadoObra estadoActual) {
         return this.inventarioPorEstado.get(estadoActual).remove(obra);
     }
+    
+    public ArrayList<Obra> buscarObras(EstadoObra estado) {
+    return inventarioPorEstado.get(estado);
+}
+
+    public ArrayList<Obra> buscarObras(String titulo) {
+        ArrayList<Obra> resultado = new ArrayList<>();
+
+        for (ArrayList<Obra> obras : inventarioPorEstado.values()) {
+            for (Obra obra : obras) {
+                if (obra.getTitulo().equalsIgnoreCase(titulo)) {
+                    resultado.add(obra);
+                }
+            }
+        }
+
+        return resultado;
+    }
+    
 }
