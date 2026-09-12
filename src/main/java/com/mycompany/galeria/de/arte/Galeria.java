@@ -79,7 +79,10 @@ class Galeria {
                 return false;
             }
         }
-
+        
+        if (nuevaCapacidad < sala.cantidadObrasExhibidas()) {
+            return false;
+            }
         sala.setNombre(nuevoNombre);
         sala.setCapacidadMaxObras(nuevaCapacidad);
         return true;
