@@ -1,5 +1,5 @@
 #Salas de la galeria
-#Fri Sep 11 22:32:11 CLST 2026
+#Fri Sep 11 22:34:54 CLST 2026
 bodega.EN_EXHIBICION.cantidad=0
 bodega.GUARDADA.cantidad=1
 bodega.GUARDADA.obra.0.anio=13531

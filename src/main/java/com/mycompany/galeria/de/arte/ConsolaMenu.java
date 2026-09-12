@@ -430,17 +430,24 @@ public class ConsolaMenu {
                     System.out.print("Ingrese el título de la obra: ");
                     String tituloBuscar = scanner.nextLine().trim();
 
-                    ArrayList<Obra> resultados =
-                            galeria.getBodega().buscarObras(tituloBuscar);
+                    try {
+                        ArrayList<Obra> resultados =
+                                galeria.getBodega().buscarObras(tituloBuscar);
 
-                    if (resultados == null || resultados.isEmpty()) {
-                        System.out.println("No se encontró ninguna obra con ese título.");
-                    } else {
+                        if (resultados == null || resultados.isEmpty()) {
+                            throw new ObraNoEncontradaException(
+                                    "No se encontró ninguna obra con ese título."
+                            );
+                        }
+
                         System.out.println("\nObras encontradas:");
 
                         for (Obra obra : resultados) {
                             System.out.println("- " + obra.getTitulo());
                         }
+
+                    } catch (ObraNoEncontradaException e) {
+                        System.out.println(e.getMessage());
                     }
 
                     break;
