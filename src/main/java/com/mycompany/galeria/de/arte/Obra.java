@@ -11,7 +11,7 @@ public class Obra {
     public Obra(Artista autor, String titulo, EstadoObra estado, int precio, int anioCreacion) {
         this.autor = autor;
         this.titulo = titulo;
-        this.estado = EstadoObra.GUARDADA;
+        this.estado = estado;
         this.precio = precio;
         this.anioCreacion = anioCreacion;
     }
