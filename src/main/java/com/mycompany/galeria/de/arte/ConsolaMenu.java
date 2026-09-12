@@ -722,8 +722,7 @@ public class ConsolaMenu {
                     System.out.println("Préstamos activos:");
                     for (int i = 0; i < prestamos.size(); i++) {
                         Prestamo p = prestamos.get(i);
-                        System.out.println("[" + i + "] Obra: " + p.getObra().getTitulo() + 
-                                           " | Cliente: " + p.getCliente().getNombre());
+                        System.out.println("[" + i + "] Obra: " + p.getObra().getTitulo() +  " | Cliente: " + p.getCliente().getNombre());
                     }
 
                     System.out.print("\nSeleccione el número del préstamo a devolver: ");
@@ -755,10 +754,7 @@ public class ConsolaMenu {
                         System.out.println("No hay préstamos activos en este momento.");
                     } else {
                         for (Prestamo p : prestamos) {
-                            System.out.println("- Obra: " + p.getObra().getTitulo() + 
-                                               " | Cliente: " + p.getCliente().getNombre() + 
-                                               " | Inicio: " + p.getFechaInicio() + 
-                                               " | Devolución: " + p.getFechaDevolucion());
+                            System.out.println("- Obra: " + p.getObra().getTitulo() +  " | Cliente: " + p.getCliente().getNombre() +  " | Inicio: " + p.getFechaInicio() +  " | Devolución: " + p.getFechaDevolucion());
                         }
                     }
                     break;
@@ -818,21 +814,28 @@ public class ConsolaMenu {
                     System.out.print("Capacidad máxima de obras: ");
                     int capacidad = leerEntero();
                     boolean agregada = sala.agregarExhibicion(new Exhibicion(tematica, capacidad));
-                    System.out.println(agregada ? "Exhibición agregada correctamente."
-                            : "No se pudo agregar: temática vacía o repetida, o capacidad inválida para la sala.");
+                    System.out.println(agregada ? "Exhibición agregada correctamente." : "No se pudo agregar: temática vacía o repetida, o capacidad inválida para la sala.");
                     break;
                 }
                 case 2: {
                     ArrayList<Exhibicion> exhibiciones = sala.listarExhibiciones();
-                    if (exhibiciones.isEmpty()) System.out.println("No hay exhibiciones registradas.");
-                    for (Exhibicion exhibicion : exhibiciones) mostrarExhibicion(exhibicion);
+                    if (exhibiciones.isEmpty()) {
+                        System.out.println("No hay exhibiciones registradas.");
+                    }
+                    for (Exhibicion exhibicion : exhibiciones){
+                        mostrarExhibicion(exhibicion);
+                    }
                     break;
                 }
                 case 3: {
                     System.out.print("Temática a buscar: ");
                     Exhibicion exhibicion = sala.buscarExhibicion(scanner.nextLine().trim());
-                    if (exhibicion == null) System.out.println("Exhibición no encontrada.");
-                    else mostrarExhibicion(exhibicion);
+                    if (exhibicion == null) {
+                        System.out.println("Exhibición no encontrada.");
+                    }
+                    else {
+                        mostrarExhibicion(exhibicion);
+                    }
                     break;
                 }
                 case 4: {
@@ -846,16 +849,12 @@ public class ConsolaMenu {
                     String nueva = scanner.nextLine().trim();
                     System.out.print("Nueva capacidad máxima de obras: ");
                     int capacidad = leerEntero();
-                    System.out.println(sala.editarExhibicion(original, nueva, capacidad)
-                            ? "Exhibición modificada correctamente."
-                            : "No se pudo editar: temática vacía o repetida, o capacidad incompatible con la sala o sus obras.");
+                    System.out.println(sala.editarExhibicion(original, nueva, capacidad) ? "Exhibición modificada correctamente.": "No se pudo editar: temática vacía o repetida, o capacidad incompatible con la sala o sus obras.");
                     break;
                 }
                 case 5: {
                     System.out.print("Temática a eliminar: ");
-                    System.out.println(sala.eliminarExhibicion(scanner.nextLine().trim())
-                            ? "Exhibición eliminada correctamente."
-                            : "No se pudo eliminar: no existe o todavía contiene obras. Traslade sus obras primero.");
+                    System.out.println(sala.eliminarExhibicion(scanner.nextLine().trim()) ? "Exhibición eliminada correctamente." : "No se pudo eliminar: no existe o todavía contiene obras. Traslade sus obras primero.");
                     break;
                 }
                 case 0: break;
