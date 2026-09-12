@@ -105,7 +105,15 @@ public class ConsolaMenu {
 
                     System.out.print("Nombre del artista: ");
                     String nombreArtista = scanner.nextLine().trim();
-
+                    if (titulo.isEmpty() || nombreArtista.isEmpty()) {
+                        System.out.println("El título y el nombre del artista no pueden estar vacíos.");
+                        break;
+                    }
+                    if (precio < 0) {
+                        System.out.println("El precio no puede ser negativo.");
+                        break;
+                    }
+                    
                     // Creación de los objetos basados en tus clases
                     Artista autor = new Artista(nombreArtista, "Desconocida"); 
                     Obra nuevaObra = new Obra(autor, titulo, EstadoObra.GUARDADA, precio, anio);
@@ -223,8 +231,8 @@ public class ConsolaMenu {
                         Exhibicion exhibicionDestino = exhibiciones.get(idxExh);
 
                         //Efectuar el traslado
-                        if (exhibicionDestino.getObrasExhibidas().size() >= exhibicionDestino.getCapacidadMaxima()) {
-                            System.out.println("Error: La exhibición ya alcanzó su capacidad máxima.");
+                        if (exhibicionDestino.getObrasExhibidas().size() >= exhibicionDestino.getCapacidadMaxima() || salaSeleccionada.cantidadObrasExhibidas() >= salaSeleccionada.getCapacidadMaxObras()) {
+                            System.out.println("Error: La exhibición o la sala ya alcanzó su capacidad máxima.");
                         } else {
                             guardadas.remove(obraATrasladar); // La sacamos de la lista de bodega
                             obraATrasladar.setEstado(EstadoObra.EN_EXHIBICION); // Actualizamos su estado
@@ -316,6 +324,10 @@ public class ConsolaMenu {
 
                         System.out.print("Nuevo precio (-1 para no cambiar): ");
                         int nuevoPrecio = leerEntero();
+                        while (nuevoPrecio < -1) {
+                            System.out.print("Ingrese un precio igual o mayor que 0, o -1 para conservarlo: ");
+                            nuevoPrecio = leerEntero();
+                        }
                         if (nuevoPrecio != -1) {
                             obraAEditar.setPrecio(nuevoPrecio);
                         }
