@@ -499,14 +499,23 @@ public class ConsolaMenu {
                 case 3: {
                     System.out.print("ID de la sala: ");
                     String id = scanner.nextLine().trim();
-                    System.out.println(); 
-                    Sala sala = galeria.buscarSala(id);
+                    System.out.println();
 
-                    if (sala == null) {
-                        System.out.println("No existe una sala con ese ID.");
-                    } else {
+                    try {
+                        Sala sala = galeria.buscarSala(id);
+
+                        if (sala == null) {
+                            throw new SalaNoEncontradaException(
+                                    "No existe una sala con ese ID."
+                            );
+                        }
+
                         mostrarSala(sala);
+
+                    } catch (SalaNoEncontradaException e) {
+                        System.out.println(e.getMessage());
                     }
+
                     break;
                 }
 
