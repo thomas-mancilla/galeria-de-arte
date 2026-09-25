@@ -1,17 +1,9 @@
 #Salas de la galeria
-#Fri Sep 11 22:34:54 CLST 2026
+#Fri Sep 25 01:24:26 CLST 2026
 bodega.EN_EXHIBICION.cantidad=0
-bodega.GUARDADA.cantidad=1
-bodega.GUARDADA.obra.0.anio=13531
-bodega.GUARDADA.obra.0.artista.nacionalidad=Desconocida
-bodega.GUARDADA.obra.0.artista.nombre=coni
-bodega.GUARDADA.obra.0.estado=GUARDADA
-bodega.GUARDADA.obra.0.precio=3145
-bodega.GUARDADA.obra.0.titulo=tase
+bodega.GUARDADA.cantidad=0
 bodega.PRESTADA.cantidad=0
 bodega.VENDIDA.cantidad=0
-cantidad=1
-sala.0.capacidad=3
-sala.0.exhibiciones.cantidad=0
-sala.0.id=2
-sala.0.nombre=Tata
+cantidad=0
+prestamos.cantidad=0
+ventas.cantidad=0

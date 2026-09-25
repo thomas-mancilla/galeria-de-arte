@@ -23,7 +23,7 @@ public class Exhibicion {
     }
     
     public ArrayList<Obra> getObrasExhibidas() {
-        return this.obrasExhibidas;
+        return new ArrayList<>(this.obrasExhibidas);
     }
 
     //Setters

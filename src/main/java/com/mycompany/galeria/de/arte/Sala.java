@@ -30,7 +30,7 @@ public class Sala {
     }
 
     public ArrayList<Exhibicion> getExhibiciones() {
-        return exhibiciones;
+        return new ArrayList<>(this.exhibiciones);
     }
     
     //Setters

@@ -22,7 +22,7 @@ class Galeria {
     //Getters
     
     public Map<String, Sala> getMapaSalas() {
-        return mapaSalas;
+        return new HashMap<>(mapaSalas);
     }
 
     public Bodega getBodega() {
@@ -30,15 +30,15 @@ class Galeria {
     }
 
     public Map<String, Cliente> getMapaClientes() {
-        return this.mapaClientes;
+        return new HashMap<>(mapaClientes);
     }
     
     public ArrayList<Venta> getRegistroVentas() {
-        return this.registroVentas;
+        return new ArrayList<>(this.registroVentas);
     }
     
     public ArrayList<Prestamo> getRegistroPrestamos() {
-        return this.registroPrestamos;
+        return new ArrayList<>(this.registroPrestamos);
     }
 
     //METODOS DE SALA:

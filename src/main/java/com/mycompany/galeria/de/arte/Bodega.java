@@ -22,7 +22,7 @@ public class Bodega {
 
     //Método para obtener las listas de la bodega
     public ArrayList<Obra> obtenerObrasPorEstado(EstadoObra estado) {
-        return this.inventarioPorEstado.get(estado);
+        return new ArrayList<>(this.inventarioPorEstado.get(estado));
     }
 
     //Método para eliminar una obra directamente
