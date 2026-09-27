@@ -317,7 +317,7 @@ public class Persistencia {
         }
     }
     private void guardarDatosObra(Properties datos, String prefijo, Obra obra) {
-        
+        datos.setProperty(prefijo + "tipo", obra.getClass().getSimpleName()); 
         datos.setProperty(prefijo + "titulo", obra.getTitulo());
         datos.setProperty(prefijo + "artista.nombre", obra.getAutor().getNombre());
         datos.setProperty(prefijo + "artista.nacionalidad",obra.getAutor().getNacionalidad());
@@ -326,7 +326,9 @@ public class Persistencia {
         datos.setProperty(prefijo + "estado",obra.getEstado().name());
         datos.setProperty(prefijo + "id", obra.getId());
     }
+
     private Obra cargarDatosObra(Properties datos, String prefijo) {
+        String tipo = datos.getProperty(prefijo + "tipo", "Fotografia"); 
         String titulo = datos.getProperty(prefijo + "titulo");
         String nombre = datos.getProperty(prefijo + "artista.nombre");
         String nacionalidad = datos.getProperty(prefijo + "artista.nacionalidad");
@@ -336,7 +338,7 @@ public class Persistencia {
             throw new IllegalArgumentException("Datos incompletos de la obra.");
         }
 
-        int precio = Integer.parseInt( datos.getProperty(prefijo + "precio"));
+        int precio = Integer.parseInt(datos.getProperty(prefijo + "precio"));
         int anio = Integer.parseInt(datos.getProperty(prefijo + "anio"));
 
         if (precio < 0) {
@@ -345,9 +347,21 @@ public class Persistencia {
 
         EstadoObra estado = EstadoObra.valueOf(textoEstado);
         Artista artista = new Artista(nombre, nacionalidad);
-        Obra obra = new Obra(artista, titulo, estado, precio, anio);
-        String id = datos.getProperty(prefijo + "id");
+        
+        Obra obra;
+        switch (tipo) {
+            case "Oleo":
+                obra = new Oleo(artista, titulo, estado, precio, anio);
+                break;
+            case "Escultura":
+                obra = new Escultura(artista, titulo, estado, precio, anio);
+                break;
+            default:
+                obra = new Fotografia(artista, titulo, estado, precio, anio);
+                break;
+        }
 
+        String id = datos.getProperty(prefijo + "id");
         if (id != null) {
             if (id.trim().isEmpty()) {
                 throw new IllegalArgumentException("El ID de la obra está vacío.");

@@ -1,6 +1,6 @@
 package com.mycompany.galeria.de.arte;
 
-public class Obra {
+public abstract class Obra {
 
     private Artista autor;
     private String titulo;
@@ -72,4 +72,7 @@ public class Obra {
                 + " | Precio: " + precio
                 + " | Año: " + anioCreacion;
     }
+    
+    public abstract double calcularCostoSeguro();
+    
 }

@@ -85,8 +85,8 @@ public class ConsolaMenu {
             System.out.println("[6] Dar de baja / Eliminar obra");
             System.out.println("[7] Buscar obra por estado");
             System.out.println("[8] Buscar obra por título");
+            System.out.println("[9] Calcular seguro total de la galería"); 
             System.out.println("[0] Volver");
-
             System.out.print("\nSeleccione: ");
             opcionObra = leerEntero();
             System.out.println(); 
@@ -116,8 +116,31 @@ public class ConsolaMenu {
                     
                     // Creación de los objetos basados en tus clases
                     Artista autor = new Artista(nombreArtista, "Desconocida"); 
-                    Obra nuevaObra = new Obra(autor, titulo, EstadoObra.GUARDADA, precio, anio);
+                    Obra nuevaObra = null;
 
+                    System.out.println("Seleccione el tipo de obra:");
+                    System.out.println("1. Óleo");
+                    System.out.println("2. Escultura");
+                    System.out.println("3. Fotografía");
+                    System.out.print("Opción: ");
+                    int tipoObra = leerEntero();
+
+                    switch (tipoObra) {
+                        case 1:
+                            nuevaObra = new Oleo(autor, titulo, EstadoObra.GUARDADA, precio, anio);
+                            break;
+                        case 2:
+                            nuevaObra = new Escultura(autor, titulo, EstadoObra.GUARDADA, precio, anio);
+                            break;
+                        case 3:
+                            nuevaObra = new Fotografia(autor, titulo, EstadoObra.GUARDADA, precio, anio);
+                            break;
+                        default:
+                            System.out.println("Tipo no válido, se registrará como Fotografía por defecto.");
+                            nuevaObra = new Fotografia(autor, titulo, EstadoObra.GUARDADA, precio, anio);
+                            break;
+                    }
+                    
                     // Acceso a la bodega anidada
                     galeria.getBodega().agregarObra(nuevaObra, EstadoObra.GUARDADA);
                     System.out.println("\nObra ingresada exitosamente a la Bodega (Estado: GUARDADA).");
@@ -453,6 +476,34 @@ public class ConsolaMenu {
                     break;
                 }
                 
+                case 9: {
+                    System.out.println("--- CÁLCULO DE SEGURO TOTAL ---");
+                    double seguroTotalBodega = 0.0;
+                    double seguroTotalExhibicion = 0.0;
+
+                    for (EstadoObra estado : EstadoObra.values()) {
+                        for (Obra obra : galeria.getBodega().obtenerObrasPorEstado(estado)) {
+                            // ¡Aquí ocurre la magia del polimorfismo!
+                            seguroTotalBodega += obra.calcularCostoSeguro();
+                        }
+                    }
+
+                    for (Sala sala : galeria.listarSalas()) {
+                        for (Exhibicion exhibicion : sala.getExhibiciones()) {
+                            for (Obra obra : exhibicion.getObrasExhibidas()) {
+                                seguroTotalExhibicion += obra.calcularCostoSeguro();
+                            }
+                        }
+                    }
+
+                    double seguroTotalGaleria = seguroTotalBodega + seguroTotalExhibicion;
+
+                    System.out.println("Seguro Obras en Bodega: $" + seguroTotalBodega);
+                    System.out.println("Seguro Obras en Exhibición: $" + seguroTotalExhibicion);
+                    System.out.println("COSTO TOTAL A ASEGURAR: $" + seguroTotalGaleria);
+                    System.out.println("\n");
+                    break;
+                }
                 default:
                     System.out.println("Opción no válida.");
             }
