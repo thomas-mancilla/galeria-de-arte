@@ -19,38 +19,22 @@ public class Main {
 
         String[] opciones = {"Consola", "Ventanas"};
 
-        int opcion = JOptionPane.showOptionDialog(
-                null,
-                "¿Cómo desea utilizar el sistema?",
-                "Galería de Arte",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opciones,
-                opciones[0]
-        );
+        int opcion = JOptionPane.showOptionDialog( null, "¿Cómo desea utilizar el sistema?", "Galería de Arte", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0] );
 
         if (opcion == 0) {
-
-            // Modo consola
             ConsolaMenu menu = new ConsolaMenu(galeria);
             menu.mostrarMenu();
+            if (persistencia.guardarSalas(galeria)) {
+                System.out.println("Datos guardados correctamente.");
+            }
+            else {
+                System.out.println("Error: no se pudieron guardar los datos.");
+            }
 
-        } else if (opcion == 1) {
-
-            // Modo ventanas
-            VentanaMenu ventana = new VentanaMenu(galeria);
-            ventana.setVisible(true);
-
-        } else {
-
-            return;
         }
-
-        if (persistencia.guardarSalas(galeria)) {
-            System.out.println("Salas guardadas correctamente.");
-        } else {
-            System.out.println("Error: no se pudieron guardar las salas.");
+        else if (opcion == 1) {
+            VentanaMenu ventana = new VentanaMenu(galeria, persistencia);
+            ventana.setVisible(true);
         }
     }
 }
