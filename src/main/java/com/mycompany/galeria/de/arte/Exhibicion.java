@@ -35,4 +35,17 @@ public class Exhibicion {
     public void setCapacidadMaxima(int capacidadMaxima) {
         this.capacidadMaxima = capacidadMaxima;
     }
+    
+    public boolean agregarObra(Obra obra) {
+    if (obra == null || obra.getEstado() != EstadoObra.EN_EXHIBICION || obrasExhibidas.size() >= capacidadMaxima) {
+        return false;
+    }
+    for (Obra existente : obrasExhibidas) {
+        if (existente.getId().equals(obra.getId())) {
+            return false;
+        }
+    }
+    obrasExhibidas.add(obra);
+    return true;
+    }
 }
