@@ -108,4 +108,12 @@ class Galeria {
         }
         return resultado;
     }
+    //Incorpora a la galeria los datos cargados del archivo.
+    void restaurarDatos( Map<String, Sala> salasCargadas, Bodega bodegaCargada, ArrayList<Venta> ventasCargadas, ArrayList<Prestamo> prestamosCargados) {
+
+    this.mapaSalas = new HashMap<>(salasCargadas);
+    this.bodega = bodegaCargada;
+    this.registroVentas = new ArrayList<>(ventasCargadas);
+    this.registroPrestamos = new ArrayList<>(prestamosCargados);
+    }
 }
