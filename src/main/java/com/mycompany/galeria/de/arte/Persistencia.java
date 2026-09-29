@@ -168,7 +168,9 @@ public class Persistencia {
                         if (obra.getEstado() != EstadoObra.EN_EXHIBICION) {
                             return false;
                         }
-                        exhibicion.getObrasExhibidas().add(obra);
+                        if (!exhibicion.agregarObra(obra)) {
+                            return false;
+                        }
                     }
 
                     if (!sala.agregarExhibicion(exhibicion)) {
@@ -298,18 +300,10 @@ public class Persistencia {
                 Prestamo prestamo = new Prestamo(obra, cliente, fechaInicio, fechaDevolucion);
                 prestamosCargados.add(prestamo);
             }
-
             
-            galeria.getMapaSalas().clear();
-            galeria.getMapaSalas().putAll(salasCargadas);
-            for (EstadoObra estado : EstadoObra.values()) {
-                galeria.getBodega().obtenerObrasPorEstado(estado).clear();
-                galeria.getBodega().obtenerObrasPorEstado(estado).addAll( bodegaCargada.obtenerObrasPorEstado(estado));
-            }
-            galeria.getRegistroVentas().clear();
-            galeria.getRegistroVentas().addAll(ventasCargadas);
-            galeria.getRegistroPrestamos().clear();
-            galeria.getRegistroPrestamos().addAll(prestamosCargados);
+            //correccion de la carga
+            galeria.restaurarDatos( salasCargadas, bodegaCargada, ventasCargadas, prestamosCargados);
+            
             return true;
 
         } catch (IOException | IllegalArgumentException e) {
