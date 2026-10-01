@@ -73,6 +73,17 @@ public class ConsolaMenu {
             }
         }
     }
+    private EstadoObra leerEstado() {
+        while (true) {
+            try {
+                System.out.print("Ingrese el estado: ");
+                String estadoIngresado = scanner.nextLine().trim().toUpperCase();
+                return EstadoObra.valueOf(estadoIngresado); 
+            } catch (IllegalArgumentException e) {
+                System.out.println("Estado no válido. Por favor, intente nuevamente.");
+            }
+        }
+    }
 
     private void mostrarMenuObras() {
         int opcionObra;
@@ -257,9 +268,9 @@ public class ConsolaMenu {
                         if (exhibicionDestino.getObrasExhibidas().size() >= exhibicionDestino.getCapacidadMaxima() || salaSeleccionada.cantidadObrasExhibidas() >= salaSeleccionada.getCapacidadMaxObras()) {
                             System.out.println("Error: La exhibición o la sala ya alcanzó su capacidad máxima.");
                         } else {
-                            guardadas.remove(obraATrasladar); // La sacamos de la lista de bodega
-                            obraATrasladar.setEstado(EstadoObra.EN_EXHIBICION); // Actualizamos su estado
-                            exhibicionDestino.getObrasExhibidas().add(obraATrasladar); // La añadimos a exhibición
+                            guardadas.remove(obraATrasladar); // 
+                            obraATrasladar.setEstado(EstadoObra.EN_EXHIBICION); // 
+                            exhibicionDestino.getObrasExhibidas().add(obraATrasladar); // 
                             System.out.println("\n¡Traslado exitoso!");
                         }
 
@@ -317,7 +328,6 @@ public class ConsolaMenu {
                         }
                     }
 
-                    //Si no está en bodega, buscar en las Exhibiciones
                     if (obraAEditar == null) {
                         for (Sala sala : galeria.listarSalas()) {
                             for (Exhibicion exhibicion : sala.getExhibiciones()) {
@@ -333,7 +343,6 @@ public class ConsolaMenu {
                         }
                     }
 
-                    //Proceso de edición (Si se encontró la obra)
                     if (obraAEditar == null) {
                         System.out.println("Obra no encontrada en el sistema.");
                     } else {
@@ -371,23 +380,24 @@ public class ConsolaMenu {
                     String tituloEliminar = scanner.nextLine().trim();
                     boolean eliminada = false;
 
-                    //Intentar eliminar de la Bodega
                     ArrayList<Obra> guardadas = galeria.getBodega().obtenerObrasPorEstado(EstadoObra.GUARDADA);
+                        
                     if (guardadas != null) {
-                        for (int i = 0; i < guardadas.size(); i++) {
-                            if (guardadas.get(i).getTitulo().equalsIgnoreCase(tituloEliminar)) {
-                                guardadas.remove(i);
+                        for (Obra obra : guardadas) {
+                            if (obra.getTitulo().equalsIgnoreCase(tituloEliminar)) {
+                                // 
+                                galeria.getBodega().eliminarObra(obra, EstadoObra.GUARDADA);
                                 eliminada = true;
                                 break;
                             }
                         }
                     }
 
-                    //Si no estaba en bodega, intentar eliminar de Exhibiciones
                     if (!eliminada) {
                         for (Sala sala : galeria.listarSalas()) {
                             for (Exhibicion exhibicion : sala.getExhibiciones()) {
                                 ArrayList<Obra> obras = exhibicion.getObrasExhibidas();
+                                
                                 for (int i = 0; i < obras.size(); i++) {
                                     if (obras.get(i).getTitulo().equalsIgnoreCase(tituloEliminar)) {
                                         obras.remove(i);
@@ -417,33 +427,23 @@ public class ConsolaMenu {
                     System.out.println("--- BUSCAR OBRAS POR ESTADO ---");
 
                     System.out.println("Estados disponibles:");
-                    for (EstadoObra estado : EstadoObra.values()) {
-                        System.out.println("- " + estado);
+                    for (EstadoObra estadoEnum : EstadoObra.values()) {
+                        System.out.println("- " + estadoEnum);
                     }
 
-                    System.out.print("Ingrese el estado: ");
-                    String estadoIngresado = scanner.nextLine().trim().toUpperCase();
+                    EstadoObra estado = leerEstado();
 
-                    try {
-                        EstadoObra estado = EstadoObra.valueOf(estadoIngresado);
+                    ArrayList<Obra> obras = galeria.getBodega().buscarObras(estado);
 
-                        ArrayList<Obra> obras =
-                                galeria.getBodega().buscarObras(estado);
-
-                        if (obras == null || obras.isEmpty()) {
-                            System.out.println("No hay obras con ese estado.");
-                        } else {
-                            System.out.println("\nObras encontradas:");
-
-                            for (Obra obra : obras) {
-                                System.out.println("- " + obra.getTitulo());
-                            }
+                    if (obras == null || obras.isEmpty()) {
+                        System.out.println("No hay obras con ese estado.");
+                    } else {
+                        System.out.println("\nObras encontradas:");
+                        for (Obra obra : obras) {
+                            System.out.println("- " + obra.getTitulo());
                         }
-
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Estado no válido.");
                     }
-
+                    
                     break;
                 }
 
@@ -454,17 +454,9 @@ public class ConsolaMenu {
                     String tituloBuscar = scanner.nextLine().trim();
 
                     try {
-                        ArrayList<Obra> resultados =
-                                galeria.getBodega().buscarObras(tituloBuscar);
-
-                        if (resultados == null || resultados.isEmpty()) {
-                            throw new ObraNoEncontradaException(
-                                    "No se encontró ninguna obra con ese título."
-                            );
-                        }
+                        ArrayList<Obra> resultados = galeria.getBodega().buscarObras(tituloBuscar);
 
                         System.out.println("\nObras encontradas:");
-
                         for (Obra obra : resultados) {
                             System.out.println("- " + obra.getTitulo());
                         }

@@ -31,10 +31,10 @@ public class Bodega {
     }
     
     public ArrayList<Obra> buscarObras(EstadoObra estado) {
-    return inventarioPorEstado.get(estado);
-}
+        return inventarioPorEstado.get(estado);
+    }
 
-    public ArrayList<Obra> buscarObras(String titulo) {
+    public ArrayList<Obra> buscarObras(String titulo) throws ObraNoEncontradaException {
         ArrayList<Obra> resultado = new ArrayList<>();
 
         for (ArrayList<Obra> obras : inventarioPorEstado.values()) {
@@ -45,7 +45,11 @@ public class Bodega {
             }
         }
 
+        // Si después de buscar en todo el inventario la lista sigue vacía, lanza el error
+        if (resultado.isEmpty()) {
+            throw new ObraNoEncontradaException("No se encontró ninguna obra con el título: " + titulo);
+        }
+
         return resultado;
     }
-    
 }

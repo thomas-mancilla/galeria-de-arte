@@ -14,7 +14,7 @@ public class Main {
                 "No se pudieron cargar las salas. "
                 + "Revise salas.txt antes de continuar."
             );
-            return;
+            //return;
         }
 
         String[] opciones = {"Consola", "Ventanas"};
