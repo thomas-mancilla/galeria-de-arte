@@ -116,4 +116,31 @@ class Galeria {
     this.registroVentas = new ArrayList<>(ventasCargadas);
     this.registroPrestamos = new ArrayList<>(prestamosCargados);
     }
+   
+    public ArrayList<Obra> buscarObraGlobal(String titulo) throws ObraNoEncontradaException {
+        ArrayList<Obra> resultados = new ArrayList<>();
+
+        //Buscar en la Bodega
+        try {
+            resultados.addAll(this.bodega.buscarObras(titulo));
+        } catch (ObraNoEncontradaException e) {
+        }
+        //Buscar en todas las Exhibiciones de cada Sala
+        for (Sala sala : this.listarSalas()) {
+            for (Exhibicion exhibicion : sala.getExhibiciones()) {
+                for (Obra obra : exhibicion.getObrasExhibidas()) {
+                    if (obra.getTitulo().equalsIgnoreCase(titulo)) {
+                        resultados.add(obra);
+                    }
+                }
+            }
+        }
+
+        if (resultados.isEmpty()) {
+            throw new ObraNoEncontradaException("No se encontró ninguna obra con el título: " + titulo);
+        }
+
+        return resultados;
+    }
+    
 }

@@ -454,7 +454,7 @@ public class ConsolaMenu {
                     String tituloBuscar = scanner.nextLine().trim();
 
                     try {
-                        ArrayList<Obra> resultados = galeria.getBodega().buscarObras(tituloBuscar);
+                        ArrayList<Obra> resultados = galeria.buscarObraGlobal(tituloBuscar);
 
                         System.out.println("\nObras encontradas:");
                         for (Obra obra : resultados) {
@@ -462,6 +462,7 @@ public class ConsolaMenu {
                         }
 
                     } catch (ObraNoEncontradaException e) {
+                        // Si la Galería entera no encontró nada, atrapa la excepcion
                         System.out.println(e.getMessage());
                     }
 
@@ -475,7 +476,6 @@ public class ConsolaMenu {
 
                     for (EstadoObra estado : EstadoObra.values()) {
                         for (Obra obra : galeria.getBodega().obtenerObrasPorEstado(estado)) {
-                            // ¡Aquí ocurre la magia del polimorfismo!
                             seguroTotalBodega += obra.calcularCostoSeguro();
                         }
                     }
