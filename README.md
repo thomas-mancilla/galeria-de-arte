@@ -1,47 +1,64 @@
-ADMINISTRACION DE GALERIAS DE ARTE
+# Galeria de Arte
 
-Proyecto en Java para administrar obras de arte, salas, exhibiciones, ventas y prestamos.
+Proyecto de INF2236 - Programacion Avanzada para administrar obras, artistas, salas, exhibiciones, clientes, ventas y prestamos.
 
-REQUISITOS
+## Requisitos
 
-JDK 11 y NetBeans 21 o inferior.
+- JDK 11.
+- NetBeans 21 o inferior, con soporte para proyectos Maven.
+- Entorno de escritorio: incluso el modo consola utiliza una ventana para seleccionar la interfaz.
 
-COMO EJECUTAR
+El proyecto no requiere una base de datos ni bibliotecas externas declaradas en el pom.xml.
 
-Descargar el proyecto y descomprimirlo.
-Abrir en NetBeans la carpeta que contiene pom.xml.
-Limpiar y construir el proyecto.
-Ejecutar la clase Main del paquete com.mycompany.galeria.de.arte.
-Elegir Consola en la ventana inicial.
-Escribir las opciones en la consola de NetBeans.
+## Abrir y ejecutar en NetBeans
 
-FUNCIONES
+1. Descomprimir el proyecto.
+2. En NetBeans, seleccionar Archivo > Abrir proyecto.
+3. Elegir la carpeta que contiene pom.xml.
+4. Comprobar que el proyecto utiliza JDK 11.
+5. Preparar salas.txt como se indica en la siguiente seccion.
+6. Ejecutar Limpiar y construir (Clean and Build).
+7. Ejecutar el proyecto (Run Project). Si solicita la clase principal, seleccionar:
 
-Agregar, listar, buscar, editar y eliminar salas y exhibiciones.
-Registrar, editar y eliminar obras.
-Trasladar obras entre bodega y exhibiciones.
-Buscar obras en bodega por titulo o estado.
-Registrar ventas y consultar su historial.
-Registrar prestamos y devolver obras a bodega.
-Consultar los clientes que realizaron compras.
+   com.mycompany.galeria.de.arte.Main
 
-GUARDADO DE DATOS
+8. Elegir Consola o Ventanas en el cuadro inicial. En modo consola, ingresar las opciones desde la ventana de salida de NetBeans.
 
-Los datos se cargan al iniciar y se guardan al salir del menu principal con la opcion 0.
-Se utiliza el archivo salas.txt en la carpeta desde la que se ejecuta el programa.
-El archivo guarda salas, exhibiciones, obras, ventas y prestamos activos.
-Tambien guarda los datos de artistas y los clientes de esas operaciones.
+## Archivo de datos
 
-ESTADO ACTUAL
+El programa lee y escribe salas.txt en el directorio desde el que se ejecuta. Para la ejecucion habitual desde NetBeans, colocar el archivo junto a pom.xml y utilizar esa carpeta como directorio de trabajo.
 
-Usar el modo consola. Los botones del modo ventanas todavia no tienen funciones conectadas y el guardado al cerrar la ventana esta pendiente.
-Las busquedas por titulo y estado solo revisan bodega.
-Algunas operaciones seleccionan obras por titulo, por lo que los titulos repetidos pueden causar confusiones.
-Falta validar las fechas de los prestamos.
+En el ZIP original, los datos iniciales estan en src/main/java/salas.txt. Copiar ese archivo a la carpeta de pom.xml antes de la primera ejecucion. No sobrescribir datos existentes si se desean conservar.
 
-PRUEBA BASICA
+Aunque su extension es .txt, el archivo usa el formato Java Properties, con claves y valores. No es CSV.
 
-Crear una sala, una exhibicion y varias obras.
-Trasladar una obra, vender otra y prestar otra.
-Salir con la opcion 0 y abrir nuevamente.
-Comprobar los datos y devolver la obra prestada.
+Si el archivo no existe, el programa inicia sin datos. Si existe pero contiene datos invalidos, informa un error y no continua.
+
+La carga se realiza al iniciar. El guardado se intenta al salir del menu principal de consola con la opcion 0, o al cerrar la ventana principal con la X. Si el guardado de ventanas falla, la ventana permanece abierta y muestra un mensaje.
+
+## Funcionalidades incluidas
+
+- Registro y consulta de obras de tipo Oleo, Escultura y Fotografia.
+- Gestion de salas y exhibiciones.
+- Busqueda de obras en bodega y exhibiciones.
+- Traslados entre bodega y exhibicion.
+- Ventas, prestamos y devoluciones.
+- Calculo del seguro segun el tipo de obra.
+- Interaccion por consola y ventanas.
+- Persistencia de salas, exhibiciones, obras y registros de operaciones, con datos de artistas y clientes asociados.
+
+## Limitaciones de esta version
+
+El proyecto compila y la carga y el guardado basicos fueron comprobados. Algunas operaciones de ventas, prestamos, traslados y eliminacion de obras exhibidas todavia modifican copias de colecciones. Esto puede impedir registrar cambios, duplicar referencias entre listas y generar un archivo que no pueda cargarse despues.
+
+Conservar una copia de salas.txt antes de realizar pruebas. Un mensaje de operacion exitosa no garantiza que esas operaciones hayan actualizado correctamente las colecciones originales.
+
+## Integrantes
+
+- Tomas Andres Aguilera Pena
+- Constanza Andrea Contreras Ordenes
+- Thomas Ignacio Mancilla Ortega
+
+## Repositorio
+
+https://github.com/thomas-mancilla/galeria-de-arte
